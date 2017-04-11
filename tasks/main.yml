@@ -1,0 +1,24 @@
+---
+
+- name: Create the base install path
+  file: path="{{ base_dir }}" state=directory
+
+- name: Create the initial, empty, document root
+  file: path="{{ base_dir }}/releases/provision-release/codebase/public" state=directory
+  when: env != 'dev'
+
+- name: Get state of possibly existing 'current' symlink
+  stat: path="{{ base_dir }}/current"
+  register: current_release_link
+
+- name: Symlink the 'current' release directory for not dev
+  file: src="{{ base_dir }}/releases/provision-release" dest="{{ base_dir }}/current" state=link
+  when: env != 'dev' and not current_release_link.stat.exists
+
+- name: Symlink the 'current' release directory for dev
+  file: src="{{ base_dir }}/releases/dev" dest="{{ base_dir }}/current" state=link
+  when: env == 'dev'
+
+- name: Grant ownership of everying in the install_path to "{{ httpd_user }}"
+  file: path="{{ base_dir}}" recurse=yes owner="{{ httpd_user }}" group="{{ httpd_group }}" mode=g+wrX
+  when: env != 'dev'
