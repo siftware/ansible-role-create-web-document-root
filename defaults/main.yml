@@ -1,0 +1,7 @@
+---
+
+base_dir: /var/www
+releases_dir_name: releases
+current_symlink_name: current
+relative_document_root: codebase/public
+
