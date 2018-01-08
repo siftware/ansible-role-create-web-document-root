@@ -18,8 +18,3 @@
 - name: Symlink the 'current' release directory for dev
   file: src="{{ base_dir }}/{{ releases_dir_name }}/dev" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
   when: env == 'dev'
-
-- name: Grant ownership of everying in the install_path to "{{ httpd_user }}"
-  file: path="{{ base_dir}}" recurse=yes owner="{{ httpd_user }}" group="{{ httpd_group }}" mode=g+wrX
-  when: env != 'dev'
-
