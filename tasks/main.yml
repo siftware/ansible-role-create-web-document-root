@@ -5,16 +5,11 @@
 
 - name: Create the initial, empty, document root
   file: path="{{ base_dir }}/{{ releases_dir_name }}/provision-release/{{ relative_document_root }}" state=directory
-  when: env != 'dev'
 
 - name: Get state of possibly existing 'current' symlink
   stat: path="{{ base_dir }}/{{ current_symlink_name }}"
   register: current_release_link
 
-- name: Symlink the 'current' release directory for not dev
+- name: Symlink the 'current' release directory
   file: src="{{ base_dir }}/{{ releases_dir_name }}/provision-release" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
-  when: env != 'dev' and not current_release_link.stat.exists
-
-- name: Symlink the 'current' release directory for dev
-  file: src="{{ base_dir }}/{{ releases_dir_name }}/dev" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
-  when: env == 'dev'
+  when: not current_release_link.stat.exists
