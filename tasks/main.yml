@@ -6,6 +6,11 @@
 - name: Create the initial, empty, document root
   file: path="{{ base_dir }}/{{ releases_dir_name }}/provision-release/{{ relative_document_root }}" state=directory
 
+- name: Create index.html for the provision-release document root
+  template:
+    src: index.html.j2
+    dest: "{{ base_dir }}/{{ releases_dir_name }}/provision-release/{{ relative_document_root }}/index.html"
+
 - name: Get state of possibly existing 'current' symlink
   stat: path="{{ base_dir }}/{{ current_symlink_name }}"
   register: current_release_link
