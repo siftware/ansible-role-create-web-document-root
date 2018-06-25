@@ -4,17 +4,17 @@
   file: path="{{ base_dir }}" state=directory
 
 - name: Create the initial, empty, document root
-  file: path="{{ base_dir }}/{{ releases_dir_name }}/provision-release/{{ relative_document_root }}" state=directory
+  file: path="{{ releases_directory }}/provision-release/{{ relative_document_root }}" state=directory
 
 - name: Create index.html for the provision-release document root
   template:
     src: index.html.j2
-    dest: "{{ base_dir }}/{{ releases_dir_name }}/provision-release/{{ relative_document_root }}/index.html"
+    dest: "{{ releases_directory }}/provision-release/{{ relative_document_root }}/index.html"
 
 - name: Get state of possibly existing 'current' symlink
   stat: path="{{ base_dir }}/{{ current_symlink_name }}"
   register: current_release_link
 
 - name: Symlink the 'current' release directory
-  file: src="{{ base_dir }}/{{ releases_dir_name }}/provision-release" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
+  file: src="{{ releases_directory }}/provision-release" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
   when: not current_release_link.stat.exists

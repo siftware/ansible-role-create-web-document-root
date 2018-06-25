@@ -1,7 +1,7 @@
 ---
 
 base_dir: /var/www/project
-releases_dir_name: releases
+releases_directory: "{{ base_dir }}/releases"
 current_symlink_name: current
 relative_document_root: codebase/public
 
