@@ -16,5 +16,5 @@
   register: current_release_link
 
 - name: Symlink the 'current' release directory
-  file: src="{{ releases_directory }}/provision-release" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
+  file: src="{{ releases_directory }}/provision-release/{{ relative_document_root }}" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
   when: not current_release_link.stat.exists
