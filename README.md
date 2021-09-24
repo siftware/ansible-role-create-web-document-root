@@ -6,12 +6,19 @@ This Ansible role will create the initial document root for a web app.
 Role Variables
 --------------
 
-None.
+```yaml
+base_dir: /var/www/project
+releases_directory: "{{ base_dir }}/releases"
+current_symlink_name: current
+relative_document_root: codebase/public
+web_document_root_user: www-data
+web_document_root_group: www-data
+```
 
 Example requirements.yml
 ------------------------
 
-```yml
+```yaml
 ---
 
 - src: git+git@code.siftware.com:ansible/create-web-document-root.git
@@ -29,7 +36,7 @@ An example playbook of how to use the role.
 
 - hosts: all
   roles:
-  - siftware.create-web-document-root
+    - siftware.create-web-document-root
 ```
 
 License

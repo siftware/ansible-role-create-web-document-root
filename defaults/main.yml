@@ -4,4 +4,5 @@ base_dir: /var/www/project
 releases_directory: "{{ base_dir }}/releases"
 current_symlink_name: current
 relative_document_root: codebase/public
-
+web_document_root_user: www-data
+web_document_root_group: www-data

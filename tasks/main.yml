@@ -1,20 +1,40 @@
 ---
 
 - name: Create the base install path
-  file: path="{{ base_dir }}" state=directory
+  file:
+    path: "{{ base_dir }}"
+    state: directory
+    owner: "{{ web_document_root_user }}"
+    group: "{{ web_document_root_group }}"
+    mode: '0775'
 
 - name: Create the initial, empty, document root
-  file: path="{{ releases_directory }}/provision-release/{{ relative_document_root }}" state=directory
+  file:
+    path: "{{ releases_directory }}/provision-release/{{ relative_document_root }}"
+    state: directory
+    owner: "{{ web_document_root_user }}"
+    group: "{{ web_document_root_group }}"
+    mode: '0775'
 
 - name: Create index.html for the provision-release document root
   template:
     src: index.html.j2
     dest: "{{ releases_directory }}/provision-release/{{ relative_document_root }}/index.html"
+    owner: "{{ web_document_root_user }}"
+    group: "{{ web_document_root_group }}"
+    mode: '0664'
 
 - name: Get state of possibly existing 'current' symlink
-  stat: path="{{ base_dir }}/{{ current_symlink_name }}"
+  stat:
+    path: "{{ base_dir }}/{{ current_symlink_name }}"
   register: current_release_link
 
 - name: Symlink the 'current' release directory
-  file: src="{{ releases_directory }}/provision-release/{{ relative_document_root }}" dest="{{ base_dir }}/{{ current_symlink_name }}" state=link
+  file:
+    src: "{{ releases_directory }}/provision-release"
+    dest: "{{ base_dir }}/{{ current_symlink_name }}"
+    state: link
+    owner: "{{ web_document_root_user }}"
+    group: "{{ web_document_root_group }}"
+    mode: '0775'
   when: not current_release_link.stat.exists
